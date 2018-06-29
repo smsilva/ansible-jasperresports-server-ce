@@ -1,0 +1,5 @@
+---
+- hosts: jasperserver
+  remote_user: root
+  roles:
+    - smsilva.ansible-jasperresports-server-ce

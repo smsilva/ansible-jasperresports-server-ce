@@ -1,0 +1,23 @@
+---
+- name: Change Hostname
+  shell: >
+    hostnamectl set-hostname {{ JASPER_SERVER_HOSTNAME }}
+
+- name: Copy Installation File
+  copy:
+    src: "/tmp/{{ JASPER_SERVER_INSTALATION_FILE }}"
+    dest: "/tmp/{{ JASPER_SERVER_INSTALATION_FILE }}"
+    mode: u+x
+
+- name: Install
+  shell: >
+    /tmp/{{ JASPER_SERVER_INSTALATION_FILE }} \
+      --mode unattended \
+      --installer-language en \
+      --jasperLicenseAccepted yes \
+      --prefix {{ JASPER_SERVER_INSTALL_DIR }}
+
+- name: Firewall Port 8080 config
+  shell: >
+    firewall-cmd --add-port=8080/tcp --zone=public --permanent && \
+    firewall-cmd --reload

@@ -1,0 +1,33 @@
+192.168.15.31
+
+scp /c/Users/silvio.silva/Downloads/jasper-server-community/TIB_js-jrs-cp_7.1.0_linux_x86_64.run root@192.168.15.31:~
+
+hostnamectl set-hostname jr-server-ce.localdomain
+
+yum update -y
+
+chmod +x TIB_js-jrs-cp_7.1.0_linux_x86_64.run
+
+vim options.properties
+
+mode=unattended
+installer-language=en
+jasperLicenseAccepted=yes
+prefix=/opt/jasper-server-ce_7.1.0
+
+./TIB_js-jrs-cp_7.1.0_linux_x86_64.run --optionfile options.properties
+
+./opt/jasperreports-server-cp-7.1.0/ctlscript.sh start
+/opt/jasper-server-ce_7.1.0/ctlscript.sh start
+
+firewall-cmd --add-port=8080/tcp --zone=public --permanent
+firewall-cmd --reload
+
+http://192.168.15.31:8080/jasperserver
+
+jasperadmin
+jasperadmin
+
+###################3
+
+scp /c/Users/silvio.silva/Downloads/jasper-server-community/TIB_js-jrs-cp_7.1.0_linux_x86_64.run root@192.168.15.23:/tmp/

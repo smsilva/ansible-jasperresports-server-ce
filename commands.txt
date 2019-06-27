@@ -17,8 +17,26 @@ prefix=/opt/jasper-server-ce_7.1.0
 
 ./TIB_js-jrs-cp_7.1.0_linux_x86_64.run --optionfile options.properties
 
-./opt/jasperreports-server-cp-7.1.0/ctlscript.sh start
-/opt/jasper-server-ce_7.1.0/ctlscript.sh start
+vim /etc/systemd/system/jasperserver.service
+
+[Unit]
+Description=JasperSoft Reports Server Community Edition
+After=syslog.target network.target
+Before=httpd.service
+
+[Service]
+User=root
+LimitNOFILE=102642
+PIDFile=/var/run/jasperserver/jasperserver.pid
+ExecStart=/opt/jasperreports-server-cp-7.1.0/ctlscript.sh start
+StandardOutput=null
+
+[Install]
+WantedBy=multi-user.target
+
+systemctl start jasperserver
+
+/opt/jasperreports-server-cp-7.1.0/ctlscript.sh start
 
 firewall-cmd --add-port=8080/tcp --zone=public --permanent
 firewall-cmd --reload
